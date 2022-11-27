@@ -250,14 +250,16 @@ VALUES
 
 
 
-DROP ROLE IF EXISTS 'db_admin', 'read_access';
-CREATE ROLE 'db_admin', 'read_access';
-GRANT All ON OLYMPICARCHERY.* TO 'db_admin';
-GRANT Select ON OLYMPICARCHERY.* TO 'read_access';
+DROP ROLE IF EXISTS db_admin@localhost, read_access@localhost;
+CREATE ROLE db_admin@localhost, read_access@localhost;
+GRANT ALL PRIVILEGES ON OLYMPICARCHERY.* TO db_admin@localhost;
+GRANT Select ON OLYMPICARCHERY.* TO read_access@localhost;
 
 DROP USER IF EXISTS mk@localhost;
 DROP USER IF EXISTS guest@localhost;
-CREATE USER 'mk'@'localhost' IDENTIFIED WITH mysql_native_password BY 'MK@1986';
-CREATE USER 'guest'@'localhost';
-GRANT 'db_admin' TO 'mk'@'localhost';
-GRANT 'read_access' TO 'guest'@'localhost';
+CREATE USER mk@localhost IDENTIFIED WITH mysql_native_password BY 'password';
+CREATE USER guest@localhost;
+GRANT db_admin@localhost TO mk@localhost;
+GRANT read_access@localhost TO guest@localhost;
+SET DEFAULT ROLE ALL TO mk@localhost;
+SET DEFAULT ROLE ALL TO guest@localhost;
